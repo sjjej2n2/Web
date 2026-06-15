@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SWARG THRIFT | Luxury Pre-loved</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 10px; }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #d4af37, #f5e6a3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #d4af37;
+        }
+
+        .google-btn {
+            background: #d4af37;
+            color: #0a0a0a;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn {
+            background: #d4af37;
+            color: #0a0a0a;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+
+        .role-badge {
+            background: #d4af37;
+            color: #0a0a0a;
+            padding: 5px 15px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .hero {
+            padding: 80px 50px;
+            text-align: center;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 500;
+            background: linear-gradient(135deg, #ffffff, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            margin-top: 15px;
+            color: #999;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        .hero-divider {
+            width: 60px;
+            height: 2px;
+            background: #d4af37;
+            margin: 20px auto 0;
+        }
+
+        .search-wrapper {
+            padding: 30px 50px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-box {
+            width: 400px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 45px 12px 25px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            background: #111;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            border-color: #d4af37;
+            outline: none;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #d4af37;
+        }
+
+        .category-tabs {
+            padding: 15px 50px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .category-tab {
+            padding: 8px 22px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 13px;
+        }
+
+        .category-tab.active {
+            background: #d4af37;
+            color: #0a0a0a;
+            border-color: #d4af37;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            padding: 25px;
+            background: #111;
+            margin: 20px 40px;
+            border-radius: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: #d4af37;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .product-grid {
+            padding: 30px 50px 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 35px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: #111;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 15px 0 10px;
+        }
+
+        .product-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 600;
+            color: #d4af37;
+            margin: 8px 0;
+        }
+
+        .product-id {
+            font-size: 10px;
+            color: #d4af37;
+            background: rgba(212,175,55,0.1);
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-family: monospace;
+        }
+
+        .product-meta {
+            font-size: 11px;
+            color: #888;
+            margin: 5px 0;
+        }
+
+        .stock-status.in { color: #4caf50; font-size: 11px; }
+        .stock-status.out { color: #f44336; font-size: 11px; }
+
+        .contact-section {
+            background: #0a0a0a;
+            padding: 50px;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .contact-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            margin-bottom: 15px;
+            color: #d4af37;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            padding: 12px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-btn.whatsapp { background: #25D366; color: white; }
+        .contact-btn.instagram { background: linear-gradient(45deg, #f09433, #d62976); color: white; }
+        .contact-btn.email { background: #d4af37; color: #0a0a0a; }
+
+        footer {
+            padding: 30px;
+            text-align: center;
+            font-size: 11px;
+            color: #555;
+        }
+
+        .admin-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #d4af37;
+            color: #0a0a0a;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 99;
+        }
+
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 550px;
+            height: 100%;
+            background: #111;
+            z-index: 2000;
+            padding: 80px 30px 30px;
+            overflow-y: auto;
+            transition: 0.4s;
+            border-left: 2px solid #d4af37;
+        }
+
+        .admin-panel.open { right: 0; }
+
+        .admin-panel h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 20px 0 15px;
+            color: #d4af37;
+        }
+
+        .admin-panel input, .admin-panel select {
+            width: 100%;
+            padding: 10px 15px;
+            margin-bottom: 12px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .admin-panel button {
+            background: #d4af37;
+            color: #0a0a0a;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 3px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .category-item, .admin-item, .login-record-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #1a1a1a;
+            margin: 8px 0;
+            border-radius: 8px;
+        }
+
+        .product-item-admin {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #222;
+            font-size: 12px;
+        }
+
+        .login-records {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #d4af37;
+            color: #0a0a0a;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 12px;
+            display: none;
+            z-index: 3000;
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 15px 20px; }
+            .hero h1 { font-size: 32px; }
+            .product-grid { padding: 20px; gap: 20px; }
+            .category-tabs { padding: 12px 20px; }
+            .admin-panel { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">S W A R G</div>
+    <div class="nav-links">
+        <a onclick="scrollToTop()">HOME</a>
+        <a onclick="scrollToProducts()">SHOP</a>
+        <a onclick="scrollToContact()">CONTACT</a>
+        <div id="authSection"></div>
+    </div>
+</div>
+
+<div class="hero">
+    <h1>LUXURY THRIFT</h1>
+    <p>PRE-LOVED • PREMIUM • SUSTAINABLE</p>
+    <div class="hero-divider"></div>
+</div>
+
+<div class="search-wrapper">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search collection...">
+        <i class="fas fa-search"></i>
+    </div>
+</div>
+
+<div class="category-tabs" id="categoryTabs">
+    <button class="category-tab active" data-category="all">All</button>
+</div>
+
+<div class="stats">
+    <div class="stat-item">
+        <div class="stat-number" id="productCount">0</div>
+        <div class="stat-label">PRODUCTS</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-number" id="categoryCount">0</div>
+        <div class="stat-label">CATEGORIES</div>
+    </div>
+</div>
+
+<div class="product-grid" id="productGrid">
+    <div style="text-align: center; padding: 60px; color: #888;">Loading...</div>
+</div>
+
+<div class="contact-section" id="contactSection">
+    <h3>CONTACT TO ORDER</h3>
+    <p>Note the Product ID and reach out to us</p>
+    <div class="contact-buttons">
+        <a href="https://wa.me/916230737507?text=Hi%20Swarg%20Thrift%20I%20want%20to%20order" class="contact-btn whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="https://instagram.com/swarg.thrifts" class="contact-btn instagram" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="mailto:thriftsswarg@gmail.com" class="contact-btn email" target="_blank"><i class="fas fa-envelope"></i> Email</a>
+    </div>
+</div>
+
+<footer>© 2026 SWARG THRIFT — LUXURY PRE-LOVED FASHION</footer>
+
+<div class="admin-btn" id="adminBtn" style="display:none;">ADMIN</div>
+
+<div class="admin-panel" id="adminPanel">
+    <h2 style="font-size: 22px; color:#d4af37;">👑 Admin Panel</h2>
+    <button onclick="closeAdminPanel()" style="background:#333;">✕ Close</button>
+
+    <div id="ownerSection" style="display:none;">
+        <h3>📋 Login Records</h3>
+        <div class="login-records" id="loginRecordsList"></div>
+        
+        <h3>👥 Manage Admins</h3>
+        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+            <input type="email" id="newAdminEmail" placeholder="Enter email to add as admin" style="flex:1;">
+            <button onclick="addAdminByEmail()">+ Add Admin</button>
+        </div>
+        <div id="adminsList"></div>
+        <hr>
+    </div>
+
+    <h3>📂 Manage Categories</h3>
+    <div id="categoriesManager"></div>
+    <div style="display: flex; gap: 10px; margin-top: 10px;">
+        <input type="text" id="newCategoryName" placeholder="New category name">
+        <button onclick="addCategory()">+ Add Category</button>
+    </div>
+    <hr>
+
+    <h3>🏷️ Global Discount</h3>
+    <input type="number" id="globalDiscountInput" placeholder="Discount % (0-90)">
+    <button onclick="updateGlobalDiscount()">Apply</button>
+    <button onclick="clearGlobalDiscount()">Remove</button>
+    <hr>
+
+    <h3>📦 Add Product</h3>
+    <select id="prodCategory"><option value="">Select Category</option></select>
+    <input type="text" id="prodName" placeholder="Product name">
+    <input type="number" id="prodPrice" placeholder="Price (₹)">
+    <input type="text" id="prodImage" placeholder="Image URL (ImgBB)">
+    <input type="text" id="prodSize" placeholder="Size">
+    <input type="text" id="prodCondition" placeholder="Condition">
+    <select id="prodStock">
+        <option value="in">In Stock</option>
+        <option value="out">Out of Stock</option>
+    </select>
+    <button onclick="addProduct()">+ Add Product</button>
+
+    <h3>📋 Products</h3>
+    <div id="adminProductList"></div>
+</div>
+
+<div class="toast" id="toast">Done</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<script>
+    // ===== FIREBASE CONFIG (TERA WALA) =====
+    const firebaseConfig = {
+        apiKey: "AIzaSyC9OyzhanKw3g9UtpwdZoYp3pJrJi6dzEE",
+        authDomain: "planning-with-ai-e6e2d.firebaseapp.com",
+        projectId: "planning-with-ai-e6e2d",
+        storageBucket: "planning-with-ai-e6e2d.firebasestorage.app",
+        messagingSenderId: "651332236638",
+        appId: "1:651332236638:web:994d7adb36aac4c633c2ff"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const db = firebase.firestore();
+
+    // ===== OWNER (TERA EMAIL) =====
+    const OWNER_EMAIL = "goluxgaming38@gmail.com";
+    let currentUser = null;
+    let currentRole = 'user';
+    let globalDiscount = 0;
+    let products = [];
+    let categories = [];
+    let activeCategory = "all";
+    let searchQuery = "";
+
+    const DEFAULT_CATEGORIES = ["Shirt", "Tshirt", "Jackets", "Jeans", "Cargo pants", "Sweater", "Lower"];
+
+    // ============ LOGIN RECORDS ============
+    async function saveLoginRecord(user) {
+        if(!user) return;
+        try {
+            await db.collection('loginRecords').add({
+                email: user.email,
+                name: user.displayName || '',
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                deviceInfo: navigator.userAgent || 'Unknown'
+            });
+        } catch(e) { console.error("Error saving login record:", e); }
+    }
+
+    async function loadLoginRecords() {
+        const snapshot = await db.collection('loginRecords').orderBy('timestamp', 'desc').limit(50).get();
+        const records = [];
+        snapshot.forEach(doc => records.push({ id: doc.id, ...doc.data() }));
+        
+        const container = document.getElementById('loginRecordsList');
+        if(container) {
+            if(records.length === 0) {
+                container.innerHTML = '<div style="color:#888; padding:10px;">No login records yet</div>';
+            } else {
+                container.innerHTML = records.map(record => `
+                    <div class="login-record-item">
+                        <div>
+                            <strong>${record.email}</strong><br>
+                            <span style="font-size:11px; color:#888;">${record.name || 'No name'}</span>
+                        </div>
+                        <div style="text-align:right; font-size:11px;">
+                            ${record.timestamp ? new Date(record.timestamp.toDate()).toLocaleString() : 'Just now'}<br>
+                            <span style="color:#d4af37;">${record.deviceInfo ? record.deviceInfo.substring(0, 40) + '...' : 'Unknown'}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+    }
+
+    // ============ CATEGORIES ============
+    async function loadCategories() {
+        const snapshot = await db.collection('categories').orderBy('order').get();
+        if(snapshot.empty) {
+            for(let i = 0; i < DEFAULT_CATEGORIES.length; i++) {
+                await db.collection('categories').add({ name: DEFAULT_CATEGORIES[i], order: i });
+            }
+            loadCategories();
+            return;
+        }
+        categories = [];
+        snapshot.forEach(doc => categories.push({ id: doc.id, ...doc.data() }));
+        renderCategoryTabs();
+        renderCategorySelect();
+        renderCategoriesManager();
+        document.getElementById('categoryCount').innerText = categories.length;
+    }
+
+    async function addCategory() {
+        if(currentRole !== 'owner') { showToast("Only owner can add categories!"); return; }
+        const name = document.getElementById('newCategoryName').value.trim();
+        if(!name) { showToast("Enter category name!"); return; }
+        await db.collection('categories').add({ name: name, order: categories.length });
+        showToast(`Category "${name}" added!`);
+        document.getElementById('newCategoryName').value = '';
+        loadCategories();
+    }
+
+    async function editCategory(id, oldName) {
+        if(currentRole !== 'owner') return;
+        const newName = prompt("Edit category name:", oldName);
+        if(newName && newName.trim()) {
+            await db.collection('categories').doc(id).update({ name: newName.trim() });
+            showToast("Category updated!");
+            loadCategories();
+        }
+    }
+
+    async function deleteCategory(id) {
+        if(currentRole !== 'owner') return;
+        if(confirm("Delete this category? Products will also be deleted!")) {
+            const productsInCategory = products.filter(p => p.categoryId === id);
+            for(let p of productsInCategory) await db.collection('products').doc(p.id).delete();
+            await db.collection('categories').doc(id).delete();
+            showToast("Category deleted!");
+            loadCategories();
+            renderProducts();
+        }
+    }
+
+    function renderCategoryTabs() {
+        const container = document.getElementById('categoryTabs');
+        container.innerHTML = `<button class="category-tab ${activeCategory === 'all' ? 'active' : ''}" data-category="all">All</button>`;
+        categories.forEach(cat => {
+            container.innerHTML += `<button class="category-tab ${activeCategory === cat.id ? 'active' : ''}" data-category="${cat.id}">${cat.name}</button>`;
+        });
+        document.querySelectorAll('.category-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                activeCategory = btn.dataset.category;
+                renderCategoryTabs();
+                renderProducts();
+            });
+        });
+    }
+
+    function renderCategorySelect() {
+        const select = document.getElementById('prodCategory');
+        select.innerHTML = '<option value="">Select Category</option>';
+        categories.forEach(cat => select.innerHTML += `<option value="${cat.id}">${cat.name}</option>`);
+    }
+
+    function renderCategoriesManager() {
+        const container = document.getElementById('categoriesManager');
+        if(!container) return;
+        if(categories.length === 0) { container.innerHTML = '<div style="color:#888;">No categories yet</div>'; return; }
+        container.innerHTML = categories.map(cat => `
+            <div class="category-item">
+                <span>📁 ${cat.name}</span>
+                <div>
+                    <button onclick="editCategory('${cat.id}', '${cat.name}')" style="background:#2196f3;">Edit</button>
+                    <button onclick="deleteCategory('${cat.id}')" style="background:#f44336;">Delete</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ============ ADMINS ============
+    async function loadAdminsList() {
+        const snapshot = await db.collection('admins').get();
+        const admins = snapshot.docs.map(d => d.id);
+        const container = document.getElementById('adminsList');
+        if(container) {
+            if(admins.length === 0) {
+                container.innerHTML = '<div style="color:#888;">No admins added yet</div>';
+            } else {
+                container.innerHTML = admins.map(email => `
+                    <div class="admin-item">
+                        <span>📧 ${email}</span>
+                        <button onclick="removeAdmin('${email}')" style="background:#f44336;">Remove Admin</button>
+                    </div>
+                `).join('');
+            }
+        }
+    }
+
+    async function addAdminByEmail() {
+        if(currentRole !== 'owner') { showToast("Only owner can add admins!"); return; }
+        const email = document.getElementById('newAdminEmail').value.trim();
+        if(!email) { showToast("Enter email!"); return; }
+        if(email === OWNER_EMAIL) { showToast("This is owner's email!"); return; }
+        await db.collection('admins').doc(email).set({ addedBy: currentUser?.email, addedAt: firebase.firestore.FieldValue.serverTimestamp() });
+        showToast(`✅ ${email} is now admin!`);
+        document.getElementById('newAdminEmail').value = '';
+        loadAdminsList();
+    }
+
+    async function removeAdmin(email) {
+        if(currentRole !== 'owner') return;
+        await db.collection('admins').doc(email).delete();
+        showToast(`Removed ${email}`);
+        loadAdminsList();
+    }
+
+    // ============ PRODUCTS ============
+    function listenProducts() {
+        db.collection('products').onSnapshot(snapshot => {
+            products = [];
+            snapshot.forEach(doc => products.push({ id: doc.id, ...doc.data() }));
+            renderProducts();
+            renderAdminList();
+            document.getElementById('productCount').innerText = products.length;
+        });
+    }
+
+    async function addProduct() {
+        if(currentRole === 'user') { showToast("Login required!"); return; }
+        const categoryId = document.getElementById('prodCategory').value;
+        const name = document.getElementById('prodName').value;
+        const price = parseInt(document.getElementById('prodPrice').value);
+        const image = document.getElementById('prodImage').value;
+        if(!categoryId) { showToast("Select a category!"); return; }
+        if(!name || !price || !image) { showToast("Fill required fields!"); return; }
+        await db.collection('products').add({
+            categoryId, name, price, image,
+            size: document.getElementById('prodSize').value || "One Size",
+            condition: document.getElementById('prodCondition').value || "Good",
+            stock: document.getElementById('prodStock').value
+        });
+        showToast("Product added!");
+        clearProductForm();
+    }
+
+    function clearProductForm() {
+        ['prodName','prodPrice','prodImage','prodSize','prodCondition'].forEach(id => document.getElementById(id).value = '');
+    }
+
+    async function deleteProduct(id) {
+        if(confirm("Delete this product?")) {
+            await db.collection('products').doc(id).delete();
+            showToast("Deleted!");
+        }
+    }
+
+    async function editProduct(id) {
+        const p = products.find(p => p.id === id);
+        const newName = prompt("New name:", p.name);
+        const newPrice = prompt("New price:", p.price);
+        if(newName && newPrice) {
+            await db.collection('products').doc(id).update({ name: newName, price: parseInt(newPrice) });
+            showToast("Updated!");
+        }
+    }
+
+    async function toggleStock(id) {
+        const p = products.find(p => p.id === id);
+        await db.collection('products').doc(id).update({ stock: p.stock === 'in' ? 'out' : 'in' });
+        showToast("Stock updated");
+    }
+
+    async function updateGlobalDiscount() {
+        if(currentRole === 'user') return;
+        globalDiscount = parseInt(document.getElementById('globalDiscountInput').value) || 0;
+        await db.collection('settings').doc('storeConfig').set({ globalDiscount }, { merge: true });
+        renderProducts();
+        showToast(`${globalDiscount}% discount applied`);
+    }
+
+    async function clearGlobalDiscount() {
+        if(currentRole === 'user') return;
+        globalDiscount = 0;
+        await db.collection('settings').doc('storeConfig').set({ globalDiscount }, { merge: true });
+        renderProducts();
+        showToast("Discount removed");
+    }
+
+    async function loadDiscount() {
+        const doc = await db.collection('settings').doc('storeConfig').get();
+        if(doc.exists) globalDiscount = doc.data().globalDiscount || 0;
+    }
+
+    // ============ RENDER ============
+    function getShortId(firestoreId) {
+        return firestoreId ? 'SWG_' + firestoreId.substring(0, 8) : 'SWG_000000';
+    }
+
+    function getCategoryName(categoryId) {
+        const cat = categories.find(c => c.id === categoryId);
+        return cat ? cat.name : 'Uncategorized';
+    }
+
+    function renderProducts() {
+        let filtered = products;
+        if(activeCategory !== 'all') filtered = filtered.filter(p => p.categoryId === activeCategory);
+        if(searchQuery) filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+        if(filtered.length === 0) {
+            document.getElementById('productGrid').innerHTML = '<div style="text-align:center;padding:60px;color:#888;">No products found</div>';
+            return;
+        }
+        document.getElementById('productGrid').innerHTML = filtered.map(p => `
+            <div class="product-card">
+                <div class="product-image"><img src="${p.image}" onerror="this.src='https://placehold.co/600x800/111111/d4af37'"></div>
+                <div class="product-info">
+                    <div class="product-title">${escapeHtml(p.name)}</div>
+                    <div class="product-price">₹${p.price}</div>
+                    <div class="product-id">🆔 ${getShortId(p.id)}</div>
+                    <div class="product-meta">📏 ${escapeHtml(p.size)} | 🧵 ${escapeHtml(p.condition)}</div>
+                    <div class="product-meta" style="color:#d4af37;">📁 ${getCategoryName(p.categoryId)}</div>
+                    <div class="stock-status ${p.stock}">${p.stock === 'in' ? 'IN STOCK' : 'OUT OF STOCK'}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderAdminList() {
+        const container = document.getElementById('adminProductList');
+        if(!container) return;
+        if(products.length === 0) { container.innerHTML = '<div style="padding:15px;color:#888;">No products yet</div>'; return; }
+        container.innerHTML = products.map(p => `
+            <div class="product-item-admin">
+                <div><b>${escapeHtml(p.name)}</b><br>₹${p.price} | ${p.stock}<br><span style="font-size:9px;color:#d4af37;">${getShortId(p.id)}</span><br><span style="font-size:9px;">📁 ${getCategoryName(p.categoryId)}</span></div>
+                <div>
+                    <button onclick="editProduct('${p.id}')" style="background:#2196f3;">✏️</button>
+                    <button onclick="toggleStock('${p.id}')" style="background:#4caf50;">📦</button>
+                    <button onclick="deleteProduct('${p.id}')" style="background:#c62828;">🗑️</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+
+    // ============ AUTH ============
+    async function getUserRole(email) {
+        if(email === OWNER_EMAIL) return 'owner';
+        const doc = await db.collection('admins').doc(email).get();
+        return doc.exists ? 'admin' : 'user';
+    }
+
+    async function updateUI() {
+        const adminBtn = document.getElementById('adminBtn');
+        const authSection = document.getElementById('authSection');
+        if(currentUser) {
+            currentRole = await getUserRole(currentUser.email);
+            authSection.innerHTML = `<span class="role-badge">${currentRole.toUpperCase()}</span><span style="margin:0 10px;font-size:12px;">${currentUser.email}</span><button class="logout-btn" onclick="logout()">Logout</button>`;
+            adminBtn.style.display = (currentRole === 'owner' || currentRole === 'admin') ? 'block' : 'none';
+        } else {
+            authSection.innerHTML = `<button class="google-btn" onclick="loginWithGoogle()"><i class="fab fa-google"></i> Login</button>`;
+            adminBtn.style.display = 'none';
+        }
+    }
+
+    async function loginWithGoogle() {
+        try {
+            const result = await auth.signInWithPopup(provider);
+            await saveLoginRecord(result.user);
+            showToast(`Welcome ${result.user.displayName || result.user.email}!`);
+        } catch(e) { showToast("Login failed!"); }
+    }
+
+    function logout() { auth.signOut(); closeAdminPanel(); }
+
+    auth.onAuthStateChanged(async user => {
+        currentUser = user;
+        await updateUI();
+        renderProducts();
+        if(currentUser && currentRole === 'owner') {
+            loadLoginRecords();
+            loadAdminsList();
+        }
+    });
+
+    function openAdminPanel() {
+        if(currentRole !== 'owner' && currentRole !== 'admin') return;
+        document.getElementById('adminPanel').classList.add('open');
+        document.getElementById('ownerSection').style.display = currentRole === 'owner' ? 'block' : 'none';
+        renderAdminList();
+        renderCategoriesManager();
+        if(currentRole === 'owner') {
+            loadLoginRecords();
+            loadAdminsList();
+        }
+    }
+    function closeAdminPanel() { document.getElementById('adminPanel').classList.remove('open'); }
+    function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 2000); }
+    function scrollToProducts() { document.getElementById('productGrid').scrollIntoView({ behavior: 'smooth' }); }
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function scrollToContact() { document.getElementById('contactSection').scrollIntoView({ behavior: 'smooth' }); }
+
+    document.getElementById('adminBtn')?.addEventListener('click', openAdminPanel);
+    document.getElementById('searchInput')?.addEventListener('input', e => { searchQuery = e.target.value; renderProducts(); });
+
+    window.addCategory = addCategory;
+    window.editCategory = editCategory;
+    window.deleteCategory = deleteCategory;
+    window.addProduct = addProduct;
+    window.deleteProduct = deleteProduct;
+    window.editProduct = editProduct;
+    window.toggleStock = toggleStock;
+    window.updateGlobalDiscount = updateGlobalDiscount;
+    window.clearGlobalDiscount = clearGlobalDiscount;
+    window.closeAdminPanel = closeAdminPanel;
+    window.addAdminByEmail = addAdminByEmail;
+    window.removeAdmin = removeAdmin;
+
+    loadDiscount();
+    loadCategories();
+    listenProducts();
+</script>
+</body>
+</html>
