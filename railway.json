@@ -3,6 +3,6 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "npx serve -l 8080"
+    "startCommand": "python3 -m http.server 8080"
   }
 }
